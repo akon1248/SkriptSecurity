@@ -1,0 +1,10 @@
+name: SkriptSecurity
+version: ${project.version}
+main: com.akon.skriptsecurity.SkriptSecurityMain
+authors: [akon]
+description: Skriptによるファイルへのアクセスや通信をブロックします
+loadbefore: [Skript]
+
+permissions:
+  skriptsecurity.admin:
+    default: op
