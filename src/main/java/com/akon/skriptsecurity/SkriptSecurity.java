@@ -14,20 +14,19 @@ import java.util.ArrayList;
 public class SkriptSecurity extends SecurityManager {
 
 	private static final URL SERVER_JAR_LOCATION = Bukkit.class.getProtectionDomain().getCodeSource().getLocation();
-	private static final String MESSAGE_PREFIX = "SkriptSecurityによってSkriptがブロックされました";
 
 	@Override
 	public void checkPermission(Permission perm) {
-		checkSkript(perm, perm instanceof RuntimePermission && (perm.getName().equals("readFileDescriptor") || perm.getName().equals("writeFileDescriptor")));
+		checkSkript(perm);
 	}
 
 	@Override
 	public void checkPermission(Permission perm, Object context) {
-		checkSkript(perm, false);
+		checkSkript(perm);
 	}
 
-	private void checkSkript(Permission perm, boolean fileDescriptor) {
-		if ((perm instanceof FilePermission || perm instanceof SocketPermission || perm instanceof URLPermission || (fileDescriptor && perm instanceof RuntimePermission)) && Bukkit.getPluginManager().isPluginEnabled("Skript")) {
+	private void checkSkript(Permission perm) {
+		if ((perm instanceof FilePermission || perm instanceof SocketPermission || perm instanceof URLPermission || (perm instanceof RuntimePermission && (perm.getName().equals("readFileDescriptor") || perm.getName().equals("writeFileDescriptor")))) && Bukkit.getPluginManager().isPluginEnabled("Skript")) {
 			for (StackTraceElement ste : new Throwable().getStackTrace()) {
 				String className = ste.getClassName();
 				if (className.startsWith("net.minecraft.server." + SkriptSecurityMain.getVersion())) {
@@ -67,7 +66,7 @@ public class SkriptSecurity extends SecurityManager {
 					} else if (perm.getName().equals("writeFileDescriptor")) {
 						message.append("ファイルの書き込みはできません");
 					}
-					String warningMessage = MESSAGE_PREFIX + ": " + message.toString();
+					String warningMessage = "SkriptSecurityによってSkriptがブロックされました: " + message.toString();
 					Bukkit.getOnlinePlayers().stream().filter(player -> player.hasPermission("skriptsecurity.admin")).forEach(player -> player.sendMessage(ChatColor.RED + warningMessage));
 					SkriptSecurityMain.getInstance().getLogger().warning(warningMessage);
 					throw new SecurityException(message.toString());
