@@ -10,6 +10,8 @@ import java.net.URL;
 import java.net.URLPermission;
 import java.security.Permission;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class SkriptSecurity extends SecurityManager {
 
@@ -41,7 +43,7 @@ public class SkriptSecurity extends SecurityManager {
 				} else if (className.equals("ch.njol.skript.lang.TriggerItem") && ste.getMethodName().equals("walk")) {
 					StringBuilder message = new StringBuilder();
 					if (perm instanceof FilePermission) {
-						String actions = perm.getActions();
+						List<String> actions = Arrays.asList(perm.getActions().split(","));
 						ArrayList<String> actionTexts = Lists.newArrayList();
 						if (actions.contains("delete")) {
 							actionTexts.add("削除");
@@ -66,7 +68,7 @@ public class SkriptSecurity extends SecurityManager {
 					} else if (perm.getName().equals("writeFileDescriptor")) {
 						message.append("ファイルの書き込みはできません");
 					}
-					String warningMessage = "SkriptSecurityによってSkriptがブロックされました: " + message.toString();
+					String warningMessage = "SkriptSecurityによってSkriptがブロックされました: " + message;
 					Bukkit.getOnlinePlayers().stream().filter(player -> player.hasPermission("skriptsecurity.admin")).forEach(player -> player.sendMessage(ChatColor.RED + warningMessage));
 					SkriptSecurityMain.getInstance().getLogger().warning(warningMessage);
 					throw new SecurityException(message.toString());
