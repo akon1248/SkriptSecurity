@@ -3,6 +3,7 @@ version: ${project.version}
 main: com.akon.skriptsecurity.SkriptSecurityMain
 authors: [akon]
 description: Skriptによるファイルへのアクセスや通信をブロックします
+softdepend: [ProtocolLib]
 loadbefore: [Skript]
 
 permissions:

@@ -6,7 +6,7 @@
 
     <groupId>com.akon.skriptsecurity</groupId>
     <artifactId>SkriptSecurity</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
     <packaging>jar</packaging>
 
     <name>SkriptSecurity</name>
@@ -55,8 +55,8 @@
 
     <repositories>
         <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io/p/skriptlang/skript</url>
+            <id>dmulloy2-repo</id>
+            <url>https://repo.dmulloy2.net/nexus/repository/public/</url>
         </repository>
     </repositories>
 
@@ -68,9 +68,15 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.skriptlang</groupId>
-            <artifactId>skript</artifactId>
-            <version>2.3.6</version>
+            <groupId>com.comphenix.protocol</groupId>
+            <artifactId>ProtocolLib</artifactId>
+            <version>4.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.12</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
