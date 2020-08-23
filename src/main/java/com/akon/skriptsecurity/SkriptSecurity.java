@@ -72,8 +72,7 @@ public class SkriptSecurity extends SecurityManager {
 						}
 					}
 				}
-				if (className.matches("[^.]+")) {
-				} else if (className.equals("ch.njol.skript.lang.TriggerItem") && ste.getMethodName().equals("walk")) {
+				if (className.equals("ch.njol.skript.lang.TriggerItem") && ste.getMethodName().equals("walk")) {
 					StringBuilder message = new StringBuilder();
 					if (perm instanceof FilePermission) {
 						List<String> actions = Arrays.asList(perm.getActions().split(","));
