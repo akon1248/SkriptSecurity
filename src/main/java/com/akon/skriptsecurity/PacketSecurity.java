@@ -4,14 +4,13 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
-import org.bukkit.plugin.Plugin;
 
 import java.util.function.Predicate;
 
 public class PacketSecurity extends PacketAdapter {
 
-	public PacketSecurity(Plugin plugin, PacketType... types) {
-		super(plugin, ListenerPriority.MONITOR, types);
+	public PacketSecurity(PacketType... types) {
+		super(SkriptSecurityMain.getInstance(), ListenerPriority.MONITOR, types);
 	}
 
 	@Override

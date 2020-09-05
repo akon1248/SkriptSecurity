@@ -13,6 +13,7 @@ public final class SkriptSecurityMain extends JavaPlugin {
 	private static String version;
 	@Getter
 	private static SkriptSecurityMain instance;
+	private static boolean packetListener = false;
 	public static final String TEMPLATE = "SkriptSecurityによってSkriptがブロックされました: %s";
 
 	@Override
@@ -23,8 +24,9 @@ public final class SkriptSecurityMain extends JavaPlugin {
 			System.setSecurityManager(new SkriptSecurity(Bukkit.getPluginManager().getPlugin("ProtocolLib")));
 			this.getLogger().info("SkriptSecurity has been initialized.");
 			if (Bukkit.getPluginManager().isPluginEnabled("MundoSK") && Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
-				ProtocolLibrary.getProtocolManager().addPacketListener(new PacketSecurity(this, PacketType.Play.Client.WINDOW_CLICK));
+				ProtocolLibrary.getProtocolManager().addPacketListener(new PacketSecurity(PacketType.Play.Client.WINDOW_CLICK));
 				this.getLogger().info("PacketSecurity for MundoSK has been initialized.");
+				packetListener = true;
 			}
 		});
 	}
@@ -32,7 +34,9 @@ public final class SkriptSecurityMain extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		System.setSecurityManager(null);
-		ProtocolLibrary.getProtocolManager().removePacketListeners(this);
+		if (packetListener) {
+			ProtocolLibrary.getProtocolManager().removePacketListeners(this);
+		}
 	}
 
 	public static void sendSecurityMessage(String msg) {
